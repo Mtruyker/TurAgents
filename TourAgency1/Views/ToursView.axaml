@@ -1,0 +1,291 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:TourAgency.ViewModels"
+             x:Class="TourAgency.Views.ToursView"
+             x:DataType="vm:ToursViewModel"
+             x:CompileBindings="False">
+    <UserControl.Styles>
+        <Style Selector="TextBlock.label">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Foreground" Value="#4B5563" />
+            <Setter Property="Margin" Value="0,0,0,5" />
+        </Style>
+        <Style Selector="TextBox">
+            <Setter Property="MinHeight" Value="36" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="#111827" />
+            <Setter Property="BorderBrush" Value="#CBD5E1" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="4" />
+            <Setter Property="Padding" Value="10,6" />
+        </Style>
+        <Style Selector="ComboBox">
+            <Setter Property="MinHeight" Value="36" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="#111827" />
+            <Setter Property="BorderBrush" Value="#CBD5E1" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="4" />
+        </Style>
+        <Style Selector="Button">
+            <Setter Property="MinHeight" Value="36" />
+            <Setter Property="Padding" Value="14,8" />
+        </Style>
+        <Style Selector="Button.primary">
+            <Setter Property="Background" Value="#2563EB" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+        <Style Selector="TabControl">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="#111827" />
+        </Style>
+        <Style Selector="TabItem">
+            <Setter Property="Foreground" Value="#374151" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="Padding" Value="14,9" />
+        </Style>
+        <Style Selector="DataGrid">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="#111827" />
+            <Setter Property="BorderBrush" Value="#D1D5DB" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="GridLinesVisibility" Value="Horizontal" />
+            <Setter Property="HorizontalGridLinesBrush" Value="#E5E7EB" />
+            <Setter Property="RowBackground" Value="White" />
+        </Style>
+    </UserControl.Styles>
+
+    <Grid RowDefinitions="Auto,Auto,*" Margin="18">
+        <Border Background="White"
+                BorderBrush="#DDE3EA"
+                BorderThickness="1"
+                CornerRadius="6"
+                Padding="16">
+            <Grid ColumnDefinitions="1.7*,150,130,105,Auto,Auto" ColumnSpacing="12" VerticalAlignment="Bottom">
+                <StackPanel>
+                    <TextBlock Classes="label" Text="Направление, страна или город" />
+                    <TextBox PlaceholderText="например, Сочи" Text="{Binding DestinationFilter}" />
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <TextBlock Classes="label" Text="Дата начала от" />
+                    <TextBox PlaceholderText="01.06.2026" Text="{Binding StartFromText}" />
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <TextBlock Classes="label" Text="Цена до" />
+                    <TextBox PlaceholderText="50000" Text="{Binding MaxPriceFilter}" />
+                </StackPanel>
+                <StackPanel Grid.Column="3">
+                    <TextBlock Classes="label" Text="Туристов" />
+                    <TextBox Text="{Binding PeopleCount}" />
+                </StackPanel>
+                <Button Grid.Column="4"
+                        Classes="primary"
+                        Content="Подобрать"
+                        Command="{Binding SearchToursCommand}" />
+                <Button Grid.Column="5"
+                        Content="Сбросить"
+                        Command="{Binding ResetFiltersCommand}" />
+            </Grid>
+        </Border>
+
+        <TextBlock Grid.Row="1"
+                   Text="{Binding StatusMessage}"
+                   IsVisible="{Binding HasStatusMessage}"
+                   Margin="2,12"
+                   Foreground="#374151"
+                   TextWrapping="Wrap" />
+
+        <TabControl Grid.Row="2">
+            <TabItem Header="Путевки">
+                <Grid RowDefinitions="*,Auto" Margin="0,12,0,0" RowSpacing="12">
+                    <DataGrid ItemsSource="{Binding Tours}"
+                              SelectedItem="{Binding SelectedTour, Mode=TwoWay}"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50" />
+                            <DataGridTextColumn Header="Направление" Binding="{Binding DestinationName}" Width="170" />
+                            <DataGridTextColumn Header="Отель" Binding="{Binding HotelName}" Width="180" />
+                            <DataGridTextColumn Header="*" Binding="{Binding HotelStars}" Width="45" />
+                            <DataGridTextColumn Header="Тур" Binding="{Binding Title}" Width="220" />
+                            <DataGridTextColumn Header="Питание" Binding="{Binding MealType}" Width="105" />
+                            <DataGridTextColumn Header="Транспорт" Binding="{Binding TransportType}" Width="105" />
+                            <DataGridTextColumn Header="Цена за чел." Binding="{Binding PricePerPerson, StringFormat='{}{0:N2}'}" Width="120" />
+                            <DataGridTextColumn Header="Начало" Binding="{Binding StartDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="105" />
+                            <DataGridTextColumn Header="Окончание" Binding="{Binding EndDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="105" />
+                            <DataGridTextColumn Header="Мест" Binding="{Binding AvailableSpots}" Width="70" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <Border Grid.Row="1"
+                            Background="White"
+                            BorderBrush="#DDE3EA"
+                            BorderThickness="1"
+                            CornerRadius="6"
+                            Padding="16">
+                        <Grid ColumnDefinitions="1.2*,1.3*,95,2*,Auto" ColumnSpacing="12" VerticalAlignment="Bottom">
+                            <StackPanel>
+                                <TextBlock Classes="label" Text="Клиент для заявки" />
+                                <ComboBox ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient}" MaxDropDownHeight="260">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding FullName}" Foreground="#111827" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Classes="label" Text="Выбранная путевка" />
+                                <TextBlock Text="{Binding SelectedTour.DisplayName}"
+                                           Foreground="#111827"
+                                           TextWrapping="Wrap"
+                                           VerticalAlignment="Center"
+                                           MinHeight="36" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Classes="label" Text="Туристов" />
+                                <TextBox Text="{Binding PeopleCount}" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="3">
+                                <TextBlock Classes="label" Text="Примечание к заявке" />
+                                <TextBox Text="{Binding BookingNotes}" PlaceholderText="пожелания клиента" />
+                            </StackPanel>
+                            <Button Grid.Column="4"
+                                    Classes="primary"
+                                    Content="Оформить заявку"
+                                    Command="{Binding CreateBookingCommand}" />
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Клиенты">
+                <Grid ColumnDefinitions="*,360" ColumnSpacing="12" Margin="0,12,0,0">
+                    <DataGrid ItemsSource="{Binding Clients}"
+                              SelectedItem="{Binding SelectedClient, Mode=TwoWay}"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50" />
+                            <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="260" />
+                            <DataGridTextColumn Header="Телефон" Binding="{Binding Phone}" Width="140" />
+                            <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="190" />
+                            <DataGridTextColumn Header="Паспорт" Binding="{Binding PassportNumber}" Width="130" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Border Grid.Column="1" Background="White" BorderBrush="#DDE3EA" BorderThickness="1" CornerRadius="6" Padding="16">
+                        <StackPanel Spacing="8">
+                            <TextBlock Text="Новый клиент" Foreground="#111827" FontSize="18" FontWeight="SemiBold" />
+                            <TextBlock Classes="label" Text="ФИО" />
+                            <TextBox Text="{Binding NewClientName}" />
+                            <TextBlock Classes="label" Text="Телефон" />
+                            <TextBox Text="{Binding NewClientPhone}" />
+                            <TextBlock Classes="label" Text="Email" />
+                            <TextBox Text="{Binding NewClientEmail}" />
+                            <TextBlock Classes="label" Text="Паспорт" />
+                            <TextBox Text="{Binding NewClientPassport}" />
+                            <Button Classes="primary"
+                                    Content="Добавить клиента"
+                                    Command="{Binding AddClientCommand}"
+                                    HorizontalAlignment="Stretch"
+                                    Margin="0,8,0,0" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Заявки и оплаты">
+                <Grid RowDefinitions="2*,Auto,2*" RowSpacing="12" Margin="0,12,0,0">
+                    <DataGrid ItemsSource="{Binding Bookings}"
+                              SelectedItem="{Binding SelectedBooking, Mode=TwoWay}"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="№" Binding="{Binding Id}" Width="55" />
+                            <DataGridTextColumn Header="Клиент" Binding="{Binding ClientName}" Width="210" />
+                            <DataGridTextColumn Header="Направление" Binding="{Binding DestinationName}" Width="150" />
+                            <DataGridTextColumn Header="Отель" Binding="{Binding HotelName}" Width="160" />
+                            <DataGridTextColumn Header="Туристов" Binding="{Binding PeopleCount}" Width="80" />
+                            <DataGridTextColumn Header="Стоимость" Binding="{Binding TotalPrice, StringFormat='{}{0:N2}'}" Width="110" />
+                            <DataGridTextColumn Header="Оплачено" Binding="{Binding PaidAmount, StringFormat='{}{0:N2}'}" Width="110" />
+                            <DataGridTextColumn Header="Остаток" Binding="{Binding Balance, StringFormat='{}{0:N2}'}" Width="110" />
+                            <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="105" />
+                            <DataGridTextColumn Header="Создана" Binding="{Binding BookedAt, StringFormat='{}{0:dd.MM.yyyy HH:mm}'}" Width="140" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <Border Grid.Row="1" Background="White" BorderBrush="#DDE3EA" BorderThickness="1" CornerRadius="6" Padding="16">
+                        <Grid ColumnDefinitions="120,150,*,Auto" ColumnSpacing="12" VerticalAlignment="Bottom">
+                            <StackPanel>
+                                <TextBlock Classes="label" Text="Сумма" />
+                                <TextBox Text="{Binding PaymentAmount}" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Classes="label" Text="Способ" />
+                                <ComboBox ItemsSource="{Binding PaymentMethods}" SelectedItem="{Binding PaymentMethod}" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Classes="label" Text="Комментарий" />
+                                <TextBox Text="{Binding PaymentComment}" />
+                            </StackPanel>
+                            <Button Grid.Column="3" Classes="primary" Content="Добавить оплату" Command="{Binding AddPaymentCommand}" />
+                        </Grid>
+                    </Border>
+
+                    <DataGrid Grid.Row="2"
+                              ItemsSource="{Binding Payments}"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="55" />
+                            <DataGridTextColumn Header="Заявка" Binding="{Binding BookingId}" Width="80" />
+                            <DataGridTextColumn Header="Дата" Binding="{Binding PaidAt, StringFormat='{}{0:dd.MM.yyyy HH:mm}'}" Width="145" />
+                            <DataGridTextColumn Header="Сумма" Binding="{Binding Amount, StringFormat='{}{0:N2}'}" Width="120" />
+                            <DataGridTextColumn Header="Способ" Binding="{Binding Method}" Width="130" />
+                            <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}" Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Договор">
+                <Grid RowDefinitions="Auto,*" Margin="0,12,0,0">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button Content="Сформировать" Command="{Binding GenerateContractCommand}" />
+                        <Button Classes="primary" Content="Сохранить и печатать" Command="{Binding SaveContractCommand}" />
+                    </StackPanel>
+                    <TextBox Grid.Row="1"
+                             Text="{Binding ContractText}"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"
+                             FontFamily="Consolas"
+                             FontSize="14"
+                             Margin="0,10,0,0" />
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Справочники">
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,12,0,0">
+                    <DataGrid ItemsSource="{Binding Destinations}" AutoGenerateColumns="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50" />
+                            <DataGridTextColumn Header="Страна" Binding="{Binding Country}" Width="130" />
+                            <DataGridTextColumn Header="Город" Binding="{Binding City}" Width="130" />
+                            <DataGridTextColumn Header="Направление" Binding="{Binding Name}" Width="170" />
+                            <DataGridTextColumn Header="Описание" Binding="{Binding Description}" Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <DataGrid Grid.Column="1" ItemsSource="{Binding Hotels}" AutoGenerateColumns="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50" />
+                            <DataGridTextColumn Header="Направление" Binding="{Binding DestinationName}" Width="150" />
+                            <DataGridTextColumn Header="Отель" Binding="{Binding Name}" Width="170" />
+                            <DataGridTextColumn Header="*" Binding="{Binding Stars}" Width="45" />
+                            <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

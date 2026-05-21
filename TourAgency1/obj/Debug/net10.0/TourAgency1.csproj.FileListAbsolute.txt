@@ -1,0 +1,7 @@
+C:\Users\usr49\source\repos\TourAgency1\TourAgency1\obj\Debug\net10.0\TourAgency1.csproj.AssemblyReference.cache
+C:\Users\usr49\source\repos\TourAgency1\TourAgency1\obj\Debug\net10.0\Avalonia\Resources.Inputs.cache
+C:\Users\usr49\source\repos\TourAgency1\TourAgency1\obj\Debug\net10.0\Avalonia\resources
+C:\Users\usr49\source\repos\TourAgency1\TourAgency1\obj\Debug\net10.0\TourAgency1.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\usr49\source\repos\TourAgency1\TourAgency1\obj\Debug\net10.0\TourAgency1.AssemblyInfoInputs.cache
+C:\Users\usr49\source\repos\TourAgency1\TourAgency1\obj\Debug\net10.0\TourAgency1.AssemblyInfo.cs
+C:\Users\usr49\source\repos\TourAgency1\TourAgency1\obj\Debug\net10.0\TourAgency1.csproj.CoreCompileInputs.cache

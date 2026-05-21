@@ -1,0 +1,48 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:TourAgency.ViewModels"
+        xmlns:views="clr-namespace:TourAgency.Views"
+        x:Class="TourAgency.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
+        Title="Туристическое агентство"
+        Width="1280"
+        Height="780"
+        MinWidth="1080"
+        MinHeight="680"
+        Background="#F4F6F8">
+
+    <Design.DataContext>
+        <vm:MainViewModel />
+    </Design.DataContext>
+
+    <Grid RowDefinitions="Auto,*">
+        <Border Background="#172033" Padding="20,14">
+            <Grid ColumnDefinitions="*,Auto" VerticalAlignment="Center">
+                <StackPanel>
+                    <TextBlock Text="Туристическое агентство"
+                               Foreground="White"
+                               FontSize="22"
+                               FontWeight="SemiBold" />
+                    <TextBlock Text="Подбор путевок, оформление заявок, оплаты и договоры"
+                               Foreground="#C7D2E1"
+                               FontSize="13"
+                               Margin="0,3,0,0" />
+                </StackPanel>
+                <Button Grid.Column="1"
+                        Content="Обновить"
+                        Command="{Binding ToursViewModel.LoadDataCommand}"
+                        Background="#334155"
+                        Foreground="White"
+                        BorderThickness="0"
+                        CornerRadius="4"
+                        Padding="18,8" />
+            </Grid>
+        </Border>
+
+        <ContentControl Grid.Row="1"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch">
+            <views:ToursView DataContext="{Binding ToursViewModel}" />
+        </ContentControl>
+    </Grid>
+</Window>
